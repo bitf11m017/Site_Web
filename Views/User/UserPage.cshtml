@@ -61,18 +61,6 @@
                         @ViewBag.Name
                     </div>
                     <a href="#" type="button" id="follow">@ViewBag.Fol</a>
-                    <br />
-                    @{foreach (var q in Model)
-                      {
-                        <div class="col-xs-2">
-                            <a href="#" class="thumbnail">
-                              <img data-src="holder.js/100%x180" src=@ViewBag.url alt="...">
-                            </a>
-                            @ViewBag.Name
-                        </div>
-                        @q.Post1
-                      }
-                }
                 }
             </div>
             <div class="col-md-3">
