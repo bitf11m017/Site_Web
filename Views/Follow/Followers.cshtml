@@ -45,18 +45,5 @@
                 </ul>
             </div>
         </nav>
-        <div>
-            <h5><a href="/Follow/Followers">People you Follow</a></h5>
-            <h4>Currently Following</h4>
-            @{foreach(var data in Model){
-                <div class="col-xs-2">
-                    <a href="#" class="thumbnail">
-                        <img data-src="holder.js/100%x180" src=@Model.DP >
-                    </a>
-                </div>
-                <strong>@data.Name</strong>
-            }}
-        </div>
-        
     </body>
 </html>
