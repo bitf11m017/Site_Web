@@ -1,0 +1,181 @@
+﻿@model WOYM_Project_.Models.User
+@{
+    ViewBag.Title = "SignUp";
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE Html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>WOYM-Sign Up</title>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Image/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <img class="navbar-brand" src="~/Image/favicon.ico" />
+                <h4 style="color:lightblue">What's on your Mind</h4>
+            </div>
+        </nav>
+        <form class="navbar-form" style="text-align:center" method="post" action="/Home/CreateAccount">
+            <h2 style="color:lightblue"><strong>Sign Up</strong></h2>
+            <div class="row">
+                <div class="col-xs-5">
+                </div>
+                <table style="text-align:center">
+                <tbody style="text-align:center">
+                    <tr style="text-align:center">
+                        <td><!--Email bar-->
+                            <div><input type="email" id="email" name="Email" placeholder="Email" style="border-radius:5px"/></div>
+                        </td>
+                        <td><a class="btn btn-primary btn-xs" role="button" id="checkEmailBtn">Check Availability</a></td>
+                        <td><p id="checkEmailPara"></p></td>
+                    </tr>
+                    <tr>
+                        <td><!--Name bar-->
+                            <div><input type="text" id="Uname" name="Name" placeholder="Username" style="border-radius:5px"/></div>
+                        </td>
+                        <td><a class="btn btn-primary btn-xs" role="button" id="btn1">Check Availability</a></td>
+                        <td><div id="checkName"></div></td>
+                    </tr>
+                    <tr>
+                        <td><!--Password bar-->
+                            <div><input type="password" id="Password" name="Password" placeholder="Password" style="border-radius:5px"/></div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="password" id="ConfirmPassword" placeholder="Confirm Password" style="border-radius:5px"/></td>
+                        <td></td>
+                        <td><p id="checkPwd"></p></td>
+                    </tr>
+                    <tr>
+                        <td><!--Gender bar-->
+                            <strong>Choose Gender:</strong>
+                        </td>
+                        <td><input type="radio" class="gender" id="cb1" name="Gender" value="Male"/>Male</td>
+                            <td><input type="radio" class="gender" id="cb2" name="Gender" value="Female"/>Female</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+                <br />
+                <div>
+                    <a id="SignUp" href="/Home/CreateAccount" class="btn-lg btn-success" role="button">Sign Up</a>
+                </div>
+            </div>
+            <!--<div id="toBeHidden"><input type="submit" id="form-btn" /></div>-->
+        </form>
+        
+        <script>
+            
+            $(document).ready(function ()
+            {
+                //alert("into function");
+                //$('#toBeHidden').hide();
+                //$('#Uname').change(function ()
+                //{
+                //    $('#checkName').text("");
+                //});
+                function f1()
+                {
+                    $.getJSON("/Home/CheckName?name=" + $('#Uname').val(), function (data)
+                    {
+                        var txt = "";
+                        if (data) {
+                            $('#checkName').css('color', 'red');
+                            txt = "User already exists.";
+                        }
+                        else {
+                            $('#checkName').css('color', 'green');
+                            txt = "User does not exists";
+                        }
+                        $('#checkName').text(txt);
+                    });
+                }
+                $('#btn1').click(function () {
+                    $('#checkName').css('color', 'black');
+                    if ($('#Uname').val() == "") {
+                        $('#checkName').text("Empty Feild");
+                        return;
+                    }
+                    
+                    $('#checkName').text("Checking...");
+                    f1();
+                });
+                function f2 ()
+                {
+                    $.getJSON("/Home/CheckEmail?email=" + $('#email').val(), function (data)
+                    {
+                        var txt = "";
+                        if (data) {
+                            $('#checkEmailPara').css('color', 'red');
+                            txt = "User already exists.";
+                        }
+                        else {
+                            $('#checkEmailPara').css('color', 'green');
+                            txt = "User does not exists";
+                        }
+                        $('#checkEmailPara').text(txt);
+                    });
+                }
+                $('#checkEmailBtn').click(function()
+                {
+                    $('#checkEmailPara').css('color', 'black');
+                    if ($('#email').val() == "") {
+                        $('#checkEmailPara').text("Empty Feild");
+                        return;
+                    }
+                    $('#checkEmailPara').text("Checking...");
+                    f2();
+                });
+                function rbChange(obj) {
+                    var rbs = document.getElementsByClassName("gender");
+                    for (var i = 0; i < cbs.length; i++) {
+                        rbs[i].checked = false;
+                    }
+                    obj.checked = true;
+                }
+                $('#cb1').select(rbChange);
+                $('#cb2').select(rbChange);
+                //$('#SignUp').click(function ()
+                //{
+                //    if ($('#email').val() == "")
+                //    {
+                //        $('#checkEmailPara').text("Empty Feild");
+                //        return;
+                //    }
+                //    if ($('#Uname').val() == "")
+                //    {
+                //        $('#checkName').text("Empty Feild");
+                //        return;
+                //    }
+                //    f2();
+                //    if ($('#checkEmailPara').has("User already exists."))
+                //        return;
+                //    f1();
+                //    if ($('#checkName').has("User already exists."))
+                //        return;
+                //    if ($('#Password').val() == "" || $('#ConfirmPassword').val() == "" || $('#Password').val() != $('#ConfirmPassword').val())
+                //        return;
+                //    $('#form-btn').show();
+                //    $('#SignUp').hide();
+                //    //$('#form-btn').click();
+                //    //if($('#cb1')
+                //    //var rbs = document.getElementsByClassName("gender");
+                //    //for (var i = 0; i < cbs.length; i++) {
+                //    //    if(rbs[i].checked
+                //    //    rbs[i].checked = false;
+                //    //}
+                //});
+            });
+        </script>
+    </body>
+</html>

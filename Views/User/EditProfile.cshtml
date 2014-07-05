@@ -1,0 +1,109 @@
+﻿@model WOYM_Project_.Models.User
+@{
+    ViewBag.Title = "EditProfile";
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE Html>
+<html>
+    <head>
+        <title>WOYM -Profile</title>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script type="text/javascript" src="Jquery/jquery.ui.datepicker.js"></script>
+        <link href="/resources/demos/style.css" rel="stylesheet" >
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Image/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+        <script>
+            $(function () {
+                $("#DOB").datepicker({});
+            });
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <img class="navbar-brand" src="~/Image/favicon.ico" />
+                <h4 style="color:lightblue">What's on your Mind</h4>
+            </div>
+            <div>
+                <ul class="nav navbar-nav pull-right">
+                    <li ><a href="/Home/AboutUs">About Us</a></li>
+                </ul>
+            </div>
+        </nav>
+        @using (Html.BeginForm("Edit","User",FormMethod.Post,new {@class = "navbar-form vanbar-left"}))
+        {
+            @Html.ValidationSummary(excludePropertyErrors: true)
+            @Html.AntiForgeryToken()
+                <fieldset>
+                <legend><b>About You</b></legend>
+
+                <div class="editor-label">
+                    Name
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => Model.Name,new {value = Model.Name})
+                    @Html.LabelFor(model => model.Name)
+                </div>
+
+                <div class="editor-label">
+                    @Html.Label("Change Password")
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => model.Password, new { type="Password"})
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+
+                <div class="editor-label">
+                    @Html.Label("Confirm Password")
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBox("Confirm Password", "", new { id="ConfirmPassword",type="Password"})
+                </div>
+
+                <div class="editor-label">
+                    Change your Display Picture
+                </div>
+                <br />
+                <div class="editor-feild">
+                    <!--<form action="/home/save" method="post" enctype="multipart/form-data" >-->
+                       <input type="file" name="image" /><br />
+                       <!--<button type="submit" class="btn btn-success" id="uploader">Upload</button>
+                    </form>-->
+                </div>
+                <br />
+                <div class="editor-label">
+                    Your Status
+                </div>
+
+                <div class="editor-feild">
+                    @Html.DropDownList("Status")
+                </div>
+
+                <div class="editor-label">
+                    Interests
+                </div>
+                <div class="editor-feild">
+                    @Html.TextAreaFor(model => Model.Interests, new { name="Interests\'Goals",rows=4,cols=70 })
+                </div>
+
+                <div class="editor-label">
+                    About
+                </div>
+                <div class="editor-feild">
+                    @Html.TextAreaFor(model => Model.About,new{ rows=4,cols=70 })
+                </div>
+                <br />
+                <button type="submit" class="btn btn-default">Edit</button>
+            </fieldset>
+        }
+        
+    @using System.Web.Optimization
+
+    @Scripts.Render("~/bundles/jqueryval")
+    </body>
+</html>

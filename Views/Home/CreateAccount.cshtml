@@ -1,0 +1,88 @@
+﻿@model WOYM_Project_.Models.User
+@{
+    ViewBag.Title = "CreateAccount";
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE Html>
+<html>
+    <head>
+        <title>WOYM</title>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Image/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <img class="navbar-brand" src="~/Image/favicon.ico" />
+                <h4 style="color:lightblue">What's on your Mind</h4>
+            </div>
+            <div>
+                <ul class="nav navbar-nav pull-right">
+                    <li ><a href="/Home/AboutUs">About Us</a></li>
+                </ul>
+            </div>
+        </nav>
+        @using (Html.BeginForm("Save", "User", Model.Id, FormMethod.Post, new { @class = "navbar-form navbar-left", enctype = "multipart/form-data" }))
+        {
+            <fieldset>
+                <legend><b>About You</b></legend>
+
+                <div class="editor-label">
+                    Name
+                </div>  
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => Model.Name,new {value = Model.Name})
+                </div>
+
+                <div class="editor-label">
+                    Choose an Image for your Display Picture
+                </div>
+                <br />
+                <div class="editor-feild">
+                       <input type="file" name="image" />
+                </div>
+                <br />
+                <div class="editor-label">
+                    Your Status
+                </div>
+
+                <div class="editor-feild">
+                    @Html.DropDownList("Status")
+                </div>
+
+                <div class="editor-label">
+                    Interests
+                </div>
+                <div class="editor-feild">
+                    @Html.TextAreaFor(model => Model.Interests, new { name="Interests\'Goals",rows=4,cols=70 })
+                </div>
+                @Html.HiddenFor(model => model.Email)
+                <div class="editor-label">
+                    About
+                </div>
+                <div class="editor-feild">
+                    @Html.TextAreaFor(model => Model.About,new{ rows=4,cols=70 })
+                </div>
+                <br />
+                <button type="submit" class="btn btn-default">Proceed</button>
+            </fieldset>
+        }
+        <script>
+            $('document').ready(function ()
+            {
+                //$('#uploader').select(function () {
+                //    $.getJSON("/User/UploadDP", function () {
+
+                //    });
+                //})
+            });
+        </script>
+    @using System.Web.Optimization
+
+    @Scripts.Render("~/bundles/jqueryval")
+    </body>
+</html>

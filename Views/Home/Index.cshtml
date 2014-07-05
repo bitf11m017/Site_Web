@@ -1,0 +1,82 @@
+﻿
+@model WOYM_Project_.Models.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>WOYM- Welcome</title>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Image/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    </head>
+    <body style="background-image:url(/Image/back.jpg)">
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <img class="navbar-brand" src="~/Image/favicon.ico" />
+                <h4 style="color:lightblue">What's on your Mind</h4>
+            </div>
+            <div>
+                <ul class="nav navbar-nav pull-right">
+                    <li ><a href="/Home/AboutUs">About Us</a></li>
+                </ul>
+            </div>
+            
+        </nav>
+        <div class="page-header">
+                <h2>&nbsp&nbsp Welcome <small style="color:lightblue">Let your mind speak.</small></h2>
+        </div>
+        <div class="row" >
+            <div class="col-xs-5">
+                <div class="jumbotron" style="background-color:black">
+                    <h2>New Here?</h2>
+                    <p><small>Sign up and get started.</small></p>
+                    <a class="btn btn-primary" href="/Home/index1" role="button">Sign Up</a>
+                </div>
+            </div>
+            <div class="front-signin js-front-signin">
+                @using (Html.BeginForm("Validate", "User", FormMethod.Post, new { @class = "navbar-form signin navbar-left pull-right" }))
+                {
+                    <h3>Have an accout? Sign in.</h3>
+                    <div class="editor-feild email">
+                        @Html.TextBoxFor(model => model.Email, new {placeholder="Email", style="border-radius:5px",name="Email"})
+                    </div>
+                    <div class="editor-feild">
+                        @Html.PasswordFor(model => model.Password, new {placeholder="Password",value=""})
+                    </div>
+                    <div>
+                        <button type="submit" id="SignIn" class="btn btn-primary">Sign in</button>
+                    </div>
+                }
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                //$('#SignIn').click(function () {
+                //    $.getJSON("/User/Validate?Email="+$('#Email').val()+"&&Password="+$('#Password').val(), function (data) {
+                //        if (data) {
+                //            var url = $('RedirectTo').val();
+                //            window.location.href = url;
+                //        }
+                //        else {
+                //            alert("Invalid Username or Password");
+                //        }
+                //    });
+                //});
+                //function check() {
+                //    if ($('remember_me').val() == "1")
+                //        $('remember_me').val("0");
+                //    else
+                //        $('remember_me').val("1");
+                //}
+                //$('#remember_me').select(check)
+            })
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,182 @@
+﻿@model WOYM_Project_.Models.User
+
+@{
+    ViewBag.Title = "index1";
+}
+@{
+    Layout = null;
+}
+<!DOCTYPE Html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>WOYM-Sign Up</title>
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script type="text/javascript" src="Jquery/jquery.ui.datepicker.js"></script>
+        <link href="/resources/demos/style.css" rel="stylesheet" >
+        <script src="~/Scripts/bootstrap.js"></script>
+        <link href="~/Image/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+        <script>
+            $(function () {
+                $("#DOB").datepicker({});
+            });
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <img class="navbar-brand" src="~/Image/favicon.ico" />
+                <h4 style="color:lightblue">What's on your Mind</h4>
+            </div>
+        </nav>
+        <div class="text-center">
+
+        
+        @using (Html.BeginForm("CreateAccount", "Home", FormMethod.Post, new { @class = "navbar-form"}))
+        {
+            
+            @Html.ValidationSummary(excludePropertyErrors: true)
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <legend>Sign Up</legend>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Email)
+                </div>
+                <div class="editor-feild">
+                    @Html.EditorFor(model => model.Email, new {value=""})
+                    @Html.ValidationMessage("Email")
+                    <div><button type="button" id="checkEmailBtn">Check Availability</button></div>
+                    <div id="checkEmail"></div>
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => model.Name, new { value=""})
+                    @Html.ValidationMessageFor(model => model.Name)
+                    <div><button type="button" id="btn1">Check Availability</button></div>
+                    <div id="checkName"></div>
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Password)
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => model.Password, new { type="Password"})
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+
+                <div class="editor-label">
+                    @Html.Label("Confirm Password")
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBox("Confirm Password", "", new { id="ConfirmPassword",type="Password"})
+                </div>
+
+                <div class="editor-label" id="pwdMatch"></div>
+
+                <div class="editor-label">
+                    <strong>Choose Gender:</strong>
+                </div>
+                <div class="editor-feild">
+                    <input type="radio" class="gender" id="cb1" name="Gender" value="Male"/>Male
+                    <input type="radio" class="gender" id="cb2" name="Gender" value="Female"/>Female
+                </div>
+                <div class="editor-label">
+                    <strong>Your Date Of Birth</strong>
+                </div>
+                <div class="editor-feild">
+                    @Html.TextBoxFor(model => Model.DOB)
+                    @Html.ValidationMessageFor(model => model.DOB)
+                </div>
+                <br />
+                <div>
+                    <button type="submit" class="btn-lg btn-success">Sign Up</button>
+                </div>
+            </fieldset>
+        }
+            </div>
+ 
+        <script>
+            
+            $(document).ready(function ()
+            {
+                var x1 = document.getElementById("ConfirmPassword")
+                x1.onfocusout = fofun;
+                function fofun() {
+                    if ($('#Password').val() != $('#ConfirmPassword').val()) {
+                        $('#pwdMatch').text("Passwords do not match");
+                    }
+                    else
+                        $('#pwdMatch').text("");
+                }
+                function f1()
+                {
+                    $.getJSON("/Home/CheckName?name=" + $('#Name').val(), function (data)
+                    {
+                        var txt = "";
+                        if (data) {
+                            $('#checkName').css('color', 'red');
+                            txt = "User already exists.";
+                        }
+                        else {
+                            $('#checkName').css('color', 'green');
+                            txt = "User does not exists";
+                        }
+                        $('#checkName').text(txt);
+                    });
+                }
+                $('#btn1').click(function () {
+                    $('#checkName').css('color', 'black');
+                    $('#checkName').text("Checking...");
+                    f1();
+                });
+                function f2 ()
+                {
+                    $.getJSON("/Home/CheckEmail?email=" + $('#Email').val(), function (data)
+                    {
+                        var txt = "";
+                        if (data) {
+                            $('#checkEmail').css('color', 'red');
+                            txt = "User already exists.";
+                        }
+                        else {
+                            $('#checkEmail').css('color', 'green');
+                            txt = "User does not exists";
+                        }
+                        $('#checkEmail').text(txt);
+                    });
+                }
+                $('#checkEmailBtn').click(function()
+                {
+                    $('#checkEmailPara').css('color', 'black');
+                    //if ($('#email').val() == "") {
+                    //    $('#checkEmailPara').text("Empty Feild");
+                    //    return;
+                    //}
+                    $('#checkEmail').text("Checking...");
+                    f2();
+                });
+                function rbChange(obj) {
+                    var rbs = document.getElementsByClassName("gender");
+                    for (var i = 0; i < cbs.length; i++) {
+                        rbs[i].checked = false;
+                    }
+                    obj.checked = true;
+                }
+                $('#cb1').select(rbChange);
+                $('#cb2').select(rbChange);
+            });
+        </script>
+        
+    @using System.Web.Optimization
+
+    @Scripts.Render("~/bundles/jqueryval")
+    </body>
+</html>
